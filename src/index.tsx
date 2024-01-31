@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import useMockAdapter from "src/api/useMockAdapter";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
+import { StoreProvider } from "./store/StoreProvider";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -11,11 +12,15 @@ const root = ReactDOM.createRoot(
 const RootApp = () => {
     useMockAdapter();
 
-    return <App />;
+    return (
+        <StoreProvider>
+            <App />
+        </StoreProvider>
+    );
 };
 
 root.render(
-    <React.StrictMode>
-        <RootApp />
-    </React.StrictMode>,
+    // <React.StrictMode>
+        <RootApp />,
+    // </React.StrictMode>,
 );

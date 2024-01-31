@@ -1,0 +1,58 @@
+.container {
+	width: 561px;
+	height: 100%;
+	position: relative;
+	// height: calc(100vh - 100px);
+}
+.header {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 5px;
+	border-bottom: 1px solid var(--secondary-color);
+
+}
+
+.header_totalLikes {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.icon {
+	fill: var(--secondary-color);
+}
+
+.icon_active {
+	fill: red;
+}
+
+.button_container {
+
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+
+.comments {
+	height: 70vh;
+	overflow-y: scroll;
+	margin: 10px 0;
+	padding-right: 10px;
+}
+
+.comments::-webkit-scrollbar {
+	width: 12px;               /* width of the entire scrollbar */
+	}
+
+.comments::-webkit-scrollbar-track {
+	background: #313439;  
+	border-radius: 10px;      /* color of the tracking area */
+}
+.comments::-webkit-scrollbar-thumb {
+	background-color: var(--secondary-color);;    /* color of the scroll thumb */
+	border-radius: 20px;       /* roundness of the scroll thumb */
+	border: 3px solid #313439;  /* creates padding around scroll thumb */
+}

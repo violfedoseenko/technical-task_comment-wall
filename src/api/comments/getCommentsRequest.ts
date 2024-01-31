@@ -6,3 +6,6 @@ async function getCommentsRequest(page: number) {
 }
 
 export default getCommentsRequest;
+
+
+

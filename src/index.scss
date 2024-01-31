@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: rgb(255 255 255);
+    --secondary-color: rgb(157, 158, 157);
+
+    // --main-width
+}
+
+body {
+     font-family: 'Roboto', sans-serif;
+    color: var(--primary-color);
+    // font-size: 14px;
+    line-height: 1.5;
+    // letter-spacing: 2px;
+    background: #101F25 url('assets/backgrounds/dark_bg.png') center center/cover no-repeat;
+    // overflow: hidden;
+}
