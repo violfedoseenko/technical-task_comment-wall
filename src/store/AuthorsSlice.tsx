@@ -16,18 +16,28 @@ export interface IAuthor {
 export interface AuthorsSliceState {
 	items: IAuthor[],
 	status: Status,
+	error: string | undefined
 }
 
 const initialState: AuthorsSliceState = {
 	items: [],
 	status: Status.LOADING,
+	error: undefined
 }
 
-export const fetchAuthors = createAsyncThunk<IAuthor[], void > (
+interface IError {
+	message: string;
+}
+
+export const fetchAuthors = createAsyncThunk<IAuthor[], void, { rejectValue: IError } > (
 	'authors/fetchAuthors',
-	async () => {
-		const data  = await getAuthorsRequest()
-		return data
+	async (_, { rejectWithValue }) => {
+		try {
+			const data  = await getAuthorsRequest()
+			return data
+		} catch (error: any) {
+            return rejectWithValue({ message: error.message });
+        }
 	}
 )
 
@@ -37,6 +47,7 @@ export const authorsSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchAuthors.pending, (state: AuthorsSliceState) => {
+			state.error = undefined
 			state.status = Status.LOADING
 			state.items = []
 		})
@@ -44,9 +55,10 @@ export const authorsSlice = createSlice({
 			state.items = action.payload
 			state.status = Status.SUCCESS
 		})
-		builder.addCase(fetchAuthors.rejected, (state: AuthorsSliceState) => {
+		builder.addCase(fetchAuthors.rejected, (state: AuthorsSliceState, action: PayloadAction<IError | undefined>) => {
 			state.items = []
 			state.status = Status.ERROR
+			state.error = action.payload ? action.payload.message : 'Unknown error'
 		})
 	},
 })

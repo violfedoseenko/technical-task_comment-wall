@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {ReactComponent as HeartFull} from '../../assets/icons/heart-full.svg';
 import {ReactComponent as HeartEmpty } from '../../assets/icons/heart-empty.svg';
 import cls from './Likes.module.scss'

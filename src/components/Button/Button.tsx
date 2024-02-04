@@ -1,10 +1,7 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import cls from './Button.module.scss';
 
-
-// type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> 
-
-export const Button = (props:any) => {
+export const Button:FC<ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
     const {
         children,
         ...otherProps

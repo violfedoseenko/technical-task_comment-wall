@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+:root {
+  --primary-color: rgb(255 255 255);
+  --secondary-color: rgb(157, 158, 157);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: var(--primary-color);
+  line-height: 1.5;
+  background: #101F25 url("assets/backgrounds/dark_bg.png") center center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+@media (max-width: 320px) {
+  body {
+    font-size: 14px;
+  }
+}
+/*# sourceMappingURL=index.css.map */

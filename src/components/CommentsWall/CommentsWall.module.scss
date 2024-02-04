@@ -1,7 +1,8 @@
 .container {
-	width: 561px;
+	max-width: 561px;
 	height: 100%;
 	position: relative;
+	margin: 0 24px;
 	// height: calc(100vh - 100px);
 }
 .header {
@@ -55,4 +56,10 @@
 	background-color: var(--secondary-color);;    /* color of the scroll thumb */
 	border-radius: 20px;       /* roundness of the scroll thumb */
 	border: 3px solid #313439;  /* creates padding around scroll thumb */
+}
+
+@media (max-width: 320px) {
+	.container {
+		max-width: 272px;
+	}
 }

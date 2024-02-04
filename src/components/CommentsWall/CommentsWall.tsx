@@ -1,17 +1,11 @@
-import {ReactComponent as HeartFull} from '../../assets/icons/heart-full.svg';
 import {ReactComponent as HeartEmpty } from '../../assets/icons/heart-empty.svg';
-import { useEffect, useState } from 'react';
-import { IAuthor, fetchAuthors } from '../../store/AuthorsSlice'
-import { useSelector } from 'react-redux'
-import { IState, useAppDispatch } from '../../store/store'
-import cls from './CommentsWall.module.scss';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { IState, useAppDispatch } from '../../store/store';
 import Comment from '../Comment/Comment';
-
-import testImg from "../../assets/avatars/yoda.jpeg"
-import { IComment, fetchComments } from '../../store/CommentsSlice';
-import Loader from '../Loader/Loader';
-import ErrorNotice from '../ErrorNotice/ErrorNotice';
+import { IComment, Status, fetchComments } from '../../store/CommentsSlice';
 import { Button } from '../Button/Button';
+import cls from './CommentsWall.module.scss';
 
 interface ICommentsWallProps {
     comments: IComment[];
@@ -20,43 +14,26 @@ interface ICommentsWallProps {
 const CommentsWall: React.FC<ICommentsWallProps> = ({comments}) => {
     const dispatch = useAppDispatch()
     const { page, total_pages } = useSelector((store: IState) => store.comments.items.pagination)
-    // const commentsStatus = useSelector((store: IState) => store.comments.status)
-    // const authorsStatus = useSelector((store: IState) => store.authors.status)
+    const commentsStatus = useSelector((store: IState) => store.comments.status)
     const [scrollPosition, setScrollPosition] = useState<number>(0);
 
     let topLevelComments = comments.filter(comment => comment.parent === null);
-    let currentScrollPosition
-
-    // useEffect(()=> {
-    //     dispatch(fetchAuthors())
-    //     dispatch(fetchComments(page))
-    // }, [])
-
-    // const restoreScrollPosition = (scrollPosition) => {
-    //     // setTimeout для убеждения, что DOM уже обновился
-    //     setTimeout(() => {
-    //         window.scrollTo(0, scrollPosition);
-    //     }, 0);
 
     useEffect(() => {
         // Восстановление позиции скролла
         window.scrollTo(0, scrollPosition);
-    }, [comments, scrollPosition]); 
+    }, [ scrollPosition]); 
 
 
     const getTotalLikes = (arr: IComment[]): number=> {
         return arr.reduce((acc: number, val: IComment) => acc + val.likes, 0)
     }
 
-    const onLoadComments = async (): Promise<void> => {
+    const onLoadComments = useCallback(async (): Promise<void> => {
         setScrollPosition(window.scrollY);
 
         await dispatch(fetchComments(page + 1))
-    }
-
-    // if (commentsStatus === 'loading' || authorsStatus === 'loading') {
-    //     return <Loader />
-    // }
+    }, [dispatch, page]);
 
     return (
 
@@ -82,7 +59,7 @@ const CommentsWall: React.FC<ICommentsWallProps> = ({comments}) => {
                 <Button 
                     onClick={onLoadComments}
                     disabled={(total_pages && page >= total_pages) ? true : false}
-                    children='Загрузить еще'
+                    children={(commentsStatus === Status.LOADING) ? 'Идет загрузка' : 'Загрузить еще'}
                 />
             </div>
 

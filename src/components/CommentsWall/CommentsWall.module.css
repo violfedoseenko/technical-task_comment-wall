@@ -1,0 +1,80 @@
+.container {
+  max-width: 561px;
+  height: 100%;
+  position: relative;
+  margin: 0 24px;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.header_totalLikes {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  fill: var(--secondary-color);
+}
+
+.icon_active {
+  fill: red;
+}
+
+.button_container {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.comments {
+  height: 70vh;
+  overflow-y: scroll;
+  margin: 10px 0;
+  padding-right: 10px;
+}
+
+.comments::-webkit-scrollbar {
+  width: 12px;
+  /* width of the entire scrollbar */
+}
+
+.comments::-webkit-scrollbar-track {
+  background: #313439;
+  border-radius: 10px;
+  /* color of the tracking area */
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid #313439;
+  /* creates padding around scroll thumb */
+}
+
+@media (max-width: 320px) {
+  .container {
+    max-width: 272px;
+  }
+}
+/*# sourceMappingURL=CommentsWall.module.css.map */

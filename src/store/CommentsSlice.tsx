@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getCommentsRequest from '../api/comments/getCommentsRequest';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 
 export enum Status {
@@ -28,7 +29,7 @@ interface ICommentsResponse<T> {
     data: T;
 }
 
-type FetchCommentsPayload = {
+export type FetchCommentsPayload = {
 	pagination: IPagination,
 	data: IComment[]
 }
@@ -36,16 +37,21 @@ type FetchCommentsPayload = {
 export interface CommentsSliceState {
     items: ICommentsResponse<IComment[]>
     status: Status
+	error: string | undefined
 }
 
 interface ChangeLikePayload {
-  commentID: number;
-  actionType: ActionType;
+	commentID: number;
+	actionType: ActionType;
 }
 
 export enum ActionType {
-  ADD_LIKE = 'add',
-  DELETE_LIKE = 'delete'
+	ADD_LIKE = 'add',
+	DELETE_LIKE = 'delete'
+}
+
+interface IError {
+	message: string;
 }
 
 const initialState: CommentsSliceState = {
@@ -59,15 +65,52 @@ const initialState: CommentsSliceState = {
   },
 
   status: Status.LOADING,
+  error: undefined
 }
 
-export const fetchComments = createAsyncThunk(
+async function retryRequest (
+		config: AxiosRequestConfig, 
+		retries: number = 3, 
+		delay: number = 500
+	): Promise<AxiosResponse<FetchCommentsPayload>> {
+    try {
+        return await axios(config);
+    } catch (error) {
+        if (retries > 0) {
+            await new Promise(resolve => setTimeout(resolve, delay));
+            return retryRequest(config, retries - 1, delay);
+        }
+
+        throw error;
+    }
+};
+
+async function getCommentsWithRetry(page: number) {
+    try {
+        return await getCommentsRequest(page);
+    } catch (error) {
+        // В случае ошибки, создаем конфигурацию запроса для повторной попытки
+        const config = {
+            url: `/api/comments`,
+            method: 'get',
+            params: { page }
+        };
+        // Повторяем запрос с помощью retryRequest
+        const response = await retryRequest(config);
+        return response.data;
+    }
+}
+
+export const fetchComments = createAsyncThunk<FetchCommentsPayload, number, { rejectValue: IError }> (
     'comments/fetchComments',
-    async (page: number) => {
-		console.log("page", page)
-        const res = await getCommentsRequest(page)
-		console.log("res", res)
-		return res
+    async (page: number, { rejectWithValue }) => {
+        try { 
+			const res = await getCommentsWithRetry(page)
+			return res
+		} catch (error: any) {
+			console.log('error', error)
+            return rejectWithValue({ message: error.message });
+        }
     }
 )
 
@@ -84,6 +127,7 @@ export const commentsSlice = createSlice({
     },
 	extraReducers: (builder) => {
 		builder.addCase(fetchComments.pending, (state: CommentsSliceState) => {
+			state.error = undefined
 			state.status = Status.LOADING
 		})
 		builder.addCase(fetchComments.fulfilled, (state: CommentsSliceState, action: PayloadAction<FetchCommentsPayload>) => {
@@ -94,9 +138,9 @@ export const commentsSlice = createSlice({
 			state.items.pagination.page = action.payload.pagination.page
 			state.status = Status.SUCCESS
 		})
-		builder.addCase(fetchComments.rejected, (state: CommentsSliceState) => {
-			// state.items.data = []
+		builder.addCase(fetchComments.rejected, (state: CommentsSliceState, action: PayloadAction<IError | undefined>) => {
 			state.status = Status.ERROR
+			state.error = action.payload ? action.payload.message : 'Unknown error'
 		})
 	},
 })

@@ -14,6 +14,7 @@
 
 .comment_data {
 	width: 100%;
+	text-align: left;
 	padding-left: 20px;
 }
 
@@ -35,9 +36,17 @@
 }
 
 .comment_data__content {
+	margin-top: 10px;
 	text-align: left;
 }
 
 .nested {
 	margin-left: 50px;;
+}
+
+@media (max-width: 320px) {
+	.comment_avatar {
+		width: 40px;
+		height: 40px;
+	}
 }
