@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/technical-task_comment-wall/static/css/main.f549d622.css",
+    "main.css": "/technical-task_comment-wall/static/css/main.871c85c1.css",
     "main.js": "/technical-task_comment-wall/static/js/main.37942f55.js",
     "static/media/dark_bg.png": "/technical-task_comment-wall/static/media/dark_bg.cdc0125668d185929610.png",
     "static/media/han-solo.jpg": "/technical-task_comment-wall/static/media/han-solo.84705bac66e252072c67.jpg",
     "static/media/heart-empty.svg": "/technical-task_comment-wall/static/media/heart-empty.eb8f88e9dc173ef753fb3c44a2571721.svg",
     "static/media/heart-full.svg": "/technical-task_comment-wall/static/media/heart-full.e065f44c6d0c04283cd2523551ec1f24.svg",
     "index.html": "/technical-task_comment-wall/index.html",
-    "main.f549d622.css.map": "/technical-task_comment-wall/static/css/main.f549d622.css.map",
+    "main.871c85c1.css.map": "/technical-task_comment-wall/static/css/main.871c85c1.css.map",
     "main.37942f55.js.map": "/technical-task_comment-wall/static/js/main.37942f55.js.map"
   },
   "entrypoints": [
-    "static/css/main.f549d622.css",
+    "static/css/main.871c85c1.css",
     "static/js/main.37942f55.js"
   ]
 }
